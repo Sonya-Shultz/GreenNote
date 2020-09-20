@@ -73,7 +73,7 @@ window.addEventListener('load', () =>{
             })
         }
     }
-    else { dataStorage.setItem("notes", JSON.stringify( all_notes));}
+    else { all_notes=[]; dataStorage.setItem("notes", JSON.stringify( all_notes));}
 })
 
 window.onbeforeunload = function (){
