@@ -50,31 +50,34 @@ window.onclick= function (event) {
 
 window.addEventListener('load', () =>{
     let help = dataStorage.getItem("notes");
-    all_notes=JSON.parse(help);
-    all_notes.forEach(element => {
-        element.__proto__=Note.prototype;
-        const oneNote = document.createElement ('LI');
-        oneNote.className='my_note';
-        oneNote.textContent= element.name +"\n"+ element.time;
-        oneNote.setAttribute('id', element.id);
-        note_list.insertBefore(oneNote, note_list.firstChild);
-    })
-    all_notes.forEach(element => {
-        const unSelNote = document.getElementById(element.id);
-        unSelNote.setAttribute('select', false); 
-        element.isHold=false;
-    });
-    let link = currentLocation.hash;
-    if (link.length>0){
-        const selNote = document.getElementById(link.substring(1,14));
-        selNote.setAttribute('select', true);
+    if (dataStorage.getItem("notes")!=null){
+        all_notes=JSON.parse(help);
         all_notes.forEach(element => {
-            if (element.id==link.substring(1,14)){
-                element.isHold=true;
-                inner_text.value=element.text;
-            }
+            element.__proto__=Note.prototype;
+            const oneNote = document.createElement ('LI');
+            oneNote.className='my_note';
+            oneNote.textContent= element.name +"\n"+ element.time;
+            oneNote.setAttribute('id', element.id);
+            note_list.insertBefore(oneNote, note_list.firstChild);
         })
+        all_notes.forEach(element => {
+            const unSelNote = document.getElementById(element.id);
+            unSelNote.setAttribute('select', false); 
+            element.isHold=false;
+        });
+        let link = currentLocation.hash;
+        if (link.length>0){
+            const selNote = document.getElementById(link.substring(1,14));
+            selNote.setAttribute('select', true);
+            all_notes.forEach(element => {
+                if (element.id==link.substring(1,14)){
+                    element.isHold=true;
+                    inner_text.value=element.text;
+                }
+            })
+        }
     }
+    else {all_notes=[]; dataStorage.setItem("notes", JSON.stringify( all_notes));}
 })
 
 window.onhashchange = function() {
