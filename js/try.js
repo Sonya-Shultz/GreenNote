@@ -50,7 +50,7 @@ window.onclick= function (event) {
 
 window.addEventListener('load', () =>{
     let help = dataStorage.getItem("notes");
-    if (help!=null){
+    if (help!=null && all_notes != null){
         all_notes=JSON.parse(help);
         all_notes.forEach(element => {
             element.__proto__=Note.prototype;
