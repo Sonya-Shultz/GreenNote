@@ -1,6 +1,6 @@
 const add_btn=document.getElementById('add_btn');
 const del_btn = document.getElementById('del_btn');
-let all_notes = [];
+let all_notes = [0];
 const inner_text=document.getElementById('inner_text');
 const note_list=document.getElementById('note_list');
 const dataStorage = window.localStorage;
@@ -50,6 +50,10 @@ window.onclick= function (event) {
 
 window.addEventListener('load', () =>{
     let help = dataStorage.getItem("notes");
+    if (dataStorage.getItem("notes")==null)
+    {
+        
+    }
     if (help!=null && all_notes != null){
         all_notes=JSON.parse(help);
         all_notes.forEach(element => {
@@ -77,7 +81,7 @@ window.addEventListener('load', () =>{
             })
         }
     }
-    else {all_notes=[]; dataStorage.setItem("notes", JSON.stringify( all_notes));}
+    else {all_notes=[0]; dataStorage.setItem("notes", JSON.stringify( all_notes));}
 })
 
 window.onhashchange = function() {
