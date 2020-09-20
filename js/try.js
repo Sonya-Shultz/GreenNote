@@ -46,7 +46,7 @@ window.onclick= function (event) {
 
 window.addEventListener('load', () =>{
     let help = dataStorage.getItem("notes");
-    if (help!=null && all_notes != null){
+    if (help != null  ){
         all_notes=JSON.parse(help);
         all_notes.forEach(element => {
             element.__proto__=Note.prototype;
@@ -73,7 +73,7 @@ window.addEventListener('load', () =>{
             })
         }
     }
-    else {all_notes=[]; dataStorage.setItem("notes", JSON.stringify( all_notes));}
+    else { dataStorage.setItem("notes", JSON.stringify( all_notes));}
 })
 
 window.onbeforeunload = function (){
