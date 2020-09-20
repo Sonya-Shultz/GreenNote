@@ -6,6 +6,8 @@ const note_list=document.getElementById('note_list');
 const dataStorage = window.localStorage;
 let currentLocation = window.location;
 
+console.log(123);
+
 add_btn.addEventListener('click', ()=>{
     const oneNote = document.createElement ('LI');
     const someNote = new Note(Date.now(),'New','NEW', false, oneNote, dateToStr());
