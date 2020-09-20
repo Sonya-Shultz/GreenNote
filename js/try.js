@@ -1,6 +1,6 @@
 const add_btn=document.getElementById('add_btn');
 const del_btn = document.getElementById('del_btn');
-let all_notes = [0];
+let all_notes = [];
 const inner_text=document.getElementById('inner_text');
 const note_list=document.getElementById('note_list');
 const dataStorage = window.localStorage;
@@ -78,7 +78,7 @@ window.addEventListener('load', () =>{
             })
         }
     }
-    else {all_notes=[0]; dataStorage.setItem("notes", JSON.stringify( all_notes));}
+    else {all_notes=[]; dataStorage.setItem("notes", JSON.stringify( all_notes));}
 })
 
 window.onhashchange = function() {
