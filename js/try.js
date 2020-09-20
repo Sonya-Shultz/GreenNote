@@ -11,8 +11,7 @@ add_btn.addEventListener('click', ()=>{
     const someNote = new Note(Date.now(),'New','NEW', false, oneNote, dateToStr());
     all_notes.push(someNote);
     oneNote.className='my_note';
-    oneNote.textContent= someNote.name +"\n"+ someNote.time;
-    //oneNote.innerHTML=someNote.name +'<br>'+ someNote.time;
+    oneNote.innerHTML=  correctStr(someNote.name) +"<br>"+ someNote.time;
     oneNote.setAttribute('id', someNote.id);
     const selNoteId = someNote.id;
     note_list.insertBefore(oneNote, note_list.firstChild);
@@ -27,7 +26,6 @@ add_btn.addEventListener('click', ()=>{
         else {unSelNote.setAttribute('select', false); 
             element.isHold=false;}
     });
-    dataStorage.setItem("notes", JSON.stringify( all_notes));
 })
 
 window.onclick= function (event) {
@@ -45,8 +43,11 @@ window.onclick= function (event) {
             }
         });
     }
-    dataStorage.setItem("notes", JSON.stringify( all_notes));
 };
+
+window.onbeforeunload = function (event) {
+    dataStorage.setItem("notes", JSON.stringify( all_notes));
+}
 
 window.addEventListener('load', () =>{
     let help = dataStorage.getItem("notes");
@@ -55,7 +56,7 @@ window.addEventListener('load', () =>{
         element.__proto__=Note.prototype;
         const oneNote = document.createElement ('LI');
         oneNote.className='my_note';
-        oneNote.textContent= element.name +"\n"+ element.time;
+        oneNote.innerHTML=  correctStr(element.name) +"<br>"+ element.time;
         oneNote.setAttribute('id', element.id);
         note_list.insertBefore(oneNote, note_list.firstChild);
     })
@@ -111,7 +112,7 @@ del_btn.addEventListener('click', ()=>{
             counter=i;
         }
     }
-    if (all_notes[counter].isHold === true)
+    if (all_notes.length>0 && all_notes[counter].isHold === true)
     {
         inner_text.value='';
         const liToDel = document.getElementById(all_notes[counter].id);
@@ -130,10 +131,8 @@ inner_text.addEventListener('input', ()=>{
             element.time=dateToStr();
             element.name=text.split('\n')[0].substring(0,20);
             const liToShow = document.getElementById(element.id);
-            liToShow.textContent=element.name +"\n"+  element.time;
+            liToShow.innerHTML=  correctStr(element.name) +"<br>"+ element.time;
             currentLocation.hash=element.id+"/"+element.name;
-            //liToShow.innerHTML=element.name +'<br>'+ element.time;
         }
     })
-    dataStorage.setItem("notes", JSON.stringify( all_notes));
 })

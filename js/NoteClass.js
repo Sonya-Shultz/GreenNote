@@ -14,28 +14,38 @@ class Note {
 
 function dateToStr ()  {
     const current_date = new Date();
-    const year= current_date.getFullYear();
-    const month = current_date.getMonth()+1;
-    const day = current_date.getDate();
-    const hour = current_date.getHours();
-    const minute = current_date.getMinutes();
-    const sec = current_date.getSeconds();
-    let helpStr = year + '.';
-    if (month < 10) {helpStr += '0'}
-    helpStr = helpStr + month + '.';
-    if (day < 10) {helpStr += '0'}
-    helpStr = helpStr + day + ' ';
-    if (hour < 10) {helpStr += '0'}
-    helpStr = helpStr + hour + ':';
-    if (minute < 10) {helpStr += '0'}
-    helpStr = helpStr + minute + ':';
-    if (sec < 10) {helpStr += '0'}
-    helpStr = helpStr + sec;
-    return helpStr;
-    // const current_date = new Date();
-    // console.log(current_date.toJSON());
-    // let date=current_date.toJSON().slice(0,10).replaceAll('-', '.');
-    // date+=" ";
-    // date+=current_date.toJSON().slice(11,19);
-    // return date;
+    const month = [
+        'Січня', 
+        'Лютого', 
+        'Березня', 
+        'Квітня', 
+        'Травня', 
+        'Червня', 
+        'Липня', 
+        'Серпня', 
+        'Вересня', 
+        'Жовтня',
+        'Листопада',
+        'Грудня'
+    ];
+    let date = current_date.toJSON().slice(8,10) + " "
+    +month[parseInt(current_date.toJSON().slice(6,8))-1]+" "
+    + current_date.toJSON().slice(0,4)+" "
+    + current_date.toLocaleTimeString();
+    // new Date().toLocaleString('ukr', {       
+    //     month: 'long'       
+    // });
+    return date;
+}
+
+function correctStr(myStr) {
+    let help="";
+    for (let i=0; i<myStr.length; i++){
+        if (myStr[i]=='<') {help+= '&lt;'}
+        else if (myStr[i]=='>') {help+= '&gt;'}
+        else if (myStr[i]=='"') {help+= '&quot;'}
+        else if (myStr[i]=='&') {help+= '&amp;'}
+        else {help+=myStr[i];}
+    }
+    return help;
 }
