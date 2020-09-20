@@ -5,7 +5,6 @@ const inner_text=document.getElementById('inner_text');
 const note_list=document.getElementById('note_list');
 const dataStorage = window.localStorage;
 let currentLocation = window.location;
-
 add_btn.addEventListener('click', ()=>{
     const oneNote = document.createElement ('LI');
     const someNote = new Note(Date.now(),'New','NEW', false, oneNote, dateToStr());
@@ -45,38 +44,41 @@ window.onclick= function (event) {
     }
 };
 
-window.onbeforeunload = function (event) {
-    dataStorage.setItem("notes", JSON.stringify( all_notes));
-}
-
 window.addEventListener('load', () =>{
     let help = dataStorage.getItem("notes");
-    all_notes=JSON.parse(help);
-    all_notes.forEach(element => {
-        element.__proto__=Note.prototype;
-        const oneNote = document.createElement ('LI');
-        oneNote.className='my_note';
-        oneNote.innerHTML=  correctStr(element.name) +"<br>"+ element.time;
-        oneNote.setAttribute('id', element.id);
-        note_list.insertBefore(oneNote, note_list.firstChild);
-    })
-    all_notes.forEach(element => {
-        const unSelNote = document.getElementById(element.id);
-        unSelNote.setAttribute('select', false); 
-        element.isHold=false;
-    });
-    let link = currentLocation.hash;
-    if (link.length>0){
-        const selNote = document.getElementById(link.substring(1,14));
-        selNote.setAttribute('select', true);
+    if (help!=null && all_notes != null){
+        all_notes=JSON.parse(help);
         all_notes.forEach(element => {
-            if (element.id==link.substring(1,14)){
-                element.isHold=true;
-                inner_text.value=element.text;
-            }
+            element.__proto__=Note.prototype;
+            const oneNote = document.createElement ('LI');
+            oneNote.className='my_note';
+            oneNote.innerHTML=  correctStr(element.name) +"<br>"+ element.time;
+            oneNote.setAttribute('id', element.id);
+            note_list.insertBefore(oneNote, note_list.firstChild);
         })
+        all_notes.forEach(element => {
+            const unSelNote = document.getElementById(element.id);
+            unSelNote.setAttribute('select', false); 
+            element.isHold=false;
+        });
+        let link = currentLocation.hash;
+        if (link.length>0){
+            const selNote = document.getElementById(link.substring(1,14));
+            selNote.setAttribute('select', true);
+            all_notes.forEach(element => {
+                if (element.id==link.substring(1,14)){
+                    element.isHold=true;
+                    inner_text.value=element.text;
+                }
+            })
+        }
     }
+    else {all_notes=[]; dataStorage.setItem("notes", JSON.stringify( all_notes));}
 })
+
+window.onbeforeunload = function (){
+    dataStorage.setItem("notes", JSON.stringify( all_notes));
+}
 
 window.onhashchange = function() {
     let link = currentLocation.hash;
@@ -120,7 +122,6 @@ del_btn.addEventListener('click', ()=>{
         note_list.removeChild(liToDel);
     }
     currentLocation.hash='';
-    dataStorage.setItem("notes", JSON.stringify( all_notes));
 })
 
 inner_text.addEventListener('input', ()=>{
